@@ -882,20 +882,7 @@ function lgGate(ar,p){if(FSD){lgBind(ar);return}favReady(function(){if(curPage!=
 PG.la=function(){return FSD?lgHtml(true):lgLoad(true)};PB.la=function(){lgGate(true,'la')};
 PG.le=function(){return FSD?lgHtml(false):lgLoad(false)};PB.le=function(){lgGate(false,'le')};
 PG.hrt=function(){return '<h2>❤ '+T('أداة تصدير القلوب','Hearts export tool')+'</h2><div class="note">'+T('اكتب اسم حسابك في archive.org ثم اضغط استخراج. تُقرأ قائمة المفضلة العامة (fav-اسمك) ويظهر كل عمل: ✅ فيه فيديو يشتغل، ⚠ بدون فيديو. علّم 18+ على أي عمل يحتاج تحذير السن، ثم انسخ الناتج وابعته أو ألصقه في الثيم.','Enter your archive.org username and tap Export. Your public favorites list (fav-name) is read and each work is marked: ✅ playable video, ⚠ no video. Tick 18+ for any work needing the age warning, then copy the output.')+'</div><div style="display:grid;gap:7px"><input id="hu" dir="ltr" value="mohannad_hassan_honda_" autocomplete="off"/><button class="btn" id="hgo" type="button">'+T('استخراج','Export')+'</button><div class="msg" id="hst"></div><div id="hout"></div></div>'};
-/* ---- حارس تجمّد الصورة (الصوت شغال والصورة ثابتة) ---- */
-/* الصق هذا الكود في shoof-app.js قبل السطر:  /* ===== end x7 ===== */ */
-var fzT=0,fzTry={};
-function fzBad(){try{if(!/\.(mp4|m4v|webm|ogv)(\?|$)/i.test(curSrc))return false;if(!v.videoWidth)return true;var q=v.getVideoPlaybackQuality&&v.getVideoPlaybackQuality();if(q&&q.totalVideoFrames===0)return true;if(typeof v.webkitDecodedFrameCount==='number'&&v.webkitDecodedFrameCount===0)return true}catch(e){}return false}
-v.addEventListener('playing',function(){clearTimeout(fzT);var id=vid,src=curSrc;fzT=setTimeout(function(){
-if(id!==vid||src!==curSrc||v.paused||voBusy||v.currentTime<1.5||!fzBad())return;
-var k=id+'|'+ti;if(fzTry[k])return;fzTry[k]=1;
-var t=v.currentTime,j=-1,i;for(i=0;i<urls.length;i++){if(i!==ti&&/_512kb\./.test(urls[i])){j=i;break}}
-if(j<0)j=ti<urls.length-1?ti+1:-1;if(j<0)return;
-ti=j;curSrc=urls[ti];
-var fx=function(){v.removeEventListener('loadedmetadata',fx);try{v.currentTime=t}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){})};
-v.addEventListener('loadedmetadata',fx);v.src=curSrc;arm();
-toast(T('جاري تبديل جودة الفيديو...','Switching video quality...'))},3500)});
- PB.hrt=function(){var rows=[];
+PB.hrt=function(){var rows=[];
 function cp(t){if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(t).then(function(){toast(T('تم النسخ ✔','Copied ✔'))},function(){fb(t)});fb(t)}
 function fb(t){var a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy');toast(T('تم النسخ ✔','Copied ✔'))}catch(e){toast(T('انسخ من المربع يدويًا','Copy manually from the box'))}a.remove()}
 function outs(){var ok=rows.filter(function(r){return r.ok});return{h:ok.map(function(r){return r.id+'|'+r.t}).join(';'),a:rows.filter(function(r){return r.a}).map(function(r){return r.id}).join(','),j:JSON.stringify(rows.map(function(r){return{id:r.id,title:r.t,type:r.m,lang:r.l,playable:r.ok,age18:r.a}}))}}
